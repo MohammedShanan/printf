@@ -40,3 +40,50 @@ char *_itob(va_list *ap)
 unsigned int n = va_arg(*ap, unsigned int);
 return (conv_to_xob(n, 'b'));
 }
+
+/**
+ * conv_to_xob - convert a number to binary or hex or octal
+ * @n:number to convert
+ * @flag: value to covert to hex or octal as a string,
+ * by default it convert to hex uppercase (flag == NULL)
+ * Return: a num as hex ,binary or  octal 
+ */
+char *conv_to_xob(unsigned int n, char flag)
+{
+int i, rem, len_tmp, div;
+char *tmp, *s, *arr;
+len_tmp = div = 16;
+if (flag == 'b')
+{
+div = 2, len_tmp = 32;
+arr = BINARY;
+}
+else if (flag == 'o')
+{
+div = 8, len_tmp = 11;
+arr = OCTAL;
+}
+else if (flag == 'x')
+{
+arr = HEX_LOWER;
+}
+else
+{
+arr = HEX_UPPER;
+}
+tmp = malloc(len_tmp + 1);
+if (tmp == NULL)
+{
+return (NULL);
+}
+for (i = len_tmp - 1; n != 0; i--)
+{
+rem = n % div;
+n = n / div;
+tmp[i] = arr[rem];
+}
+tmp[len_tmp] = '\0';
+s = _strdup1(tmp + i + 1);
+free(tmp);
+return (s);
+}

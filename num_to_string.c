@@ -28,3 +28,53 @@ char *_uitos(va_list *ap)
 unsigned int n = va_arg(*ap, unsigned int);
 return (num_to_str(n));
 }
+/**
+ * add_sign - add a sign to numbers
+ * @sign: sign to add
+ * @n: number
+ * Return: number with sign in front
+ */
+char *add_sign(char sign, char *n)
+{
+char *str = malloc(_strlen(n, 1) + 2);
+int i, j = 0;
+str[j++] = sign;
+for (i = 0; n[i]; i++)
+{
+str[j++] = n[i];
+}
+str[j] = '\0';
+free(n);
+return (str);
+}
+/**
+ * num_to_str - convert a number to a string
+ * @n: number to be converted
+ * Return: number as a string
+ */
+char *num_to_str(unsigned int n)
+{
+int digit, i = 0, len_n = 1;
+char *s;
+double tens = 1;
+while (tens * 10 <= n)
+{
+tens *= 10;
+len_n++;
+}
+s = malloc(len_n + 1);
+if (s == NULL)
+{
+return (NULL);
+}
+while (tens >= 1)
+{
+digit = n / tens;
+s[i] = digit + '0';
+n = (n - (tens * digit));
+tens /= 10;
+i++;
+}
+s[i] = '\0';
+return (s);
+}
