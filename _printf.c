@@ -1,4 +1,6 @@
 #include "main.h"
+#include <unistd.h>
+#include<stdio.h>
 /**
  * _printf - print formatted string
  * @format: string to print
@@ -6,55 +8,21 @@
  */
 int _printf(const char *format, ...)
 {
-char *buffer, *s;
-int i, size_r, j, total_len;
-char *(*fuc)(va_list *);
-va_list ap;
-i = size_r = j = total_len = 0;
-va_start(ap, format);
-buffer = malloc(sizeof(char) * 1024);
-if (buffer == NULL)
-{
-return (0);
-}
-while (format[i])
-{
-if (format[i] != '%')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = format[i++];
-total_len++;
-}
-else
-{
-i++;
-if (format[i] == '%')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r] = '%';
-total_len++;
-}
-else
-{
-fuc = get_fuction(format[i]);
-j = 0;
-s = fuc(&ap);
-while (s[j])
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = s[j++];
-total_len++;
-}
-free(s);
-i++;
-}
-}
-}
-va_end(ap);
-buffer[size_r] = '\0';
-write(1, buffer, size_r);
-free(buffer);
-return (total_len);
+    char *buffer;
+    int size_r, total_len = 0;
+    va_list ap;
+    buffer = malloc(sizeof(char) * 1024);
+    if (buffer == NULL)
+    {
+        return (0);
+    }
+    va_start(ap, format);
+    total_len = parse_format(format, &ap, buffer);
+    va_end(ap);
+    size_r = _strlen(buffer, 1);
+    write(1, buffer, size_r);
+    free(buffer);
+    return (total_len);
 }
 
 /**
@@ -66,10 +34,11 @@ return (total_len);
  */
 int check_buff_overflow(char *buff, int size_r)
 {
-if (size_r == 1024)
-{
-write(1, buff, size_r);
-return (0);
+    if (size_r == 1024)
+    {
+        write(1, buff, size_r);
+        return (0);
+    }
+    return (size_r);
 }
-return (size_r);
-}
+

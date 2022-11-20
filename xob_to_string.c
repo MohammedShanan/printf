@@ -1,4 +1,8 @@
 #include "main.h"
+#define HEX_UPPER "0123456789ABCDEF"
+#define HEX_LOWER "0123456789abcdef"
+#define BINARY "01"
+#define OCTAL "01234567"
 /**
  * _itox - convert unsigned int to hexadecimal in lower case
  * @ap: argument parameter
@@ -46,7 +50,7 @@ return (conv_to_xob(n, 'b'));
  * @n:number to convert
  * @flag: value to covert to hex or octal as a string,
  * by default it convert to hex uppercase (flag == NULL)
- * Return: a num as hex ,binary or  octal 
+ * Return: a num as hex ,binary or  octal
  */
 char *conv_to_xob(unsigned int n, char flag)
 {
@@ -76,14 +80,16 @@ if (tmp == NULL)
 {
 return (NULL);
 }
-for (i = len_tmp - 1; n != 0; i--)
+i = len_tmp - 1;
+do
 {
 rem = n % div;
 n = n / div;
-tmp[i] = arr[rem];
-}
+tmp[i--] = arr[rem];
+} while (n != 0);
 tmp[len_tmp] = '\0';
 s = _strdup1(tmp + i + 1);
 free(tmp);
 return (s);
 }
+

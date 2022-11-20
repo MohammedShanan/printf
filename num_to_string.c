@@ -71,7 +71,7 @@ while (tens >= 1)
 {
 digit = n / tens;
 s[i] = digit + '0';
-n = (n - (tens * digit));
+n = (n - (tens *digit));
 tens /= 10;
 i++;
 }
