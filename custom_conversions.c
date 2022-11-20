@@ -40,7 +40,7 @@ return (str);
 }
 
 /**
- * rev_string - reverse a string
+ * rev - reverse a string
  * @ap: pointer to argument parameter
  * Return: string in reverse
  */
@@ -80,7 +80,7 @@ char *hex, *cstm_s;
 int i, j = 0, len_s, len_nall, len_cstms;
 len_s = _strlen(s, 1); /*length s with none printable chars*/
 len_nall = _strlen(s, 0); /*length s without none printable chars*/
-len_cstms = (len_s - len_nall) * 3 + len_s; /*length custom string*/
+len_cstms = (len_s - len_nall) *3 + len_s; /*length custom string*/
 cstm_s = malloc(len_cstms + 1);
 if (cstm_s == NULL)
 {

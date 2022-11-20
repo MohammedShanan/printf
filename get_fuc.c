@@ -8,8 +8,7 @@
 char *(*get_fuction(char c))(va_list *)
 {
 int i = 0;
-struct function funcs[] =
-{
+struct function funcs[] = {
 {'c', ctostr},
 {'s', tostr},
 {'i', _itos},

@@ -9,10 +9,11 @@
 #define BINARY  "01"
 #define OCTAL  "01234567"
 
-/** struct function - struct containing
- * an identifier and function pointer
+/** 
+ *struct function - struct containing
+ *an identifier and function pointer
  *@id: identifier for the function
-*@func: a pointer to function
+ *@func: a pointer to function
 */
 struct function
 {

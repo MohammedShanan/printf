@@ -14,15 +14,14 @@ i = size_r = j = total_len = 0;
 va_start(ap, format);
 buffer = malloc(sizeof(char) * 1024);
 if (buffer == NULL)
-{
 return (0);
-}
 while (format[i])
 {
 if (format[i] != '%')
 {
 size_r = check_buff_overflow(buffer, size_r);
 buffer[size_r++] = format[i++];
+total_len++;
 }
 else
 {
@@ -31,6 +30,7 @@ if (format[i] == '%')
 {
 size_r = check_buff_overflow(buffer, size_r);
 buffer[size_r] = '%';
+total_len++;
 }
 else
 {
@@ -39,8 +39,9 @@ j = 0;
 s = fuc(&ap);
 while (s[j])
 {
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = s[j++];
+    size_r = check_buff_overflow(buffer, size_r);
+    buffer[size_r++] = s[j++];
+    total_len++;
 }
 free(s);
 i++;
