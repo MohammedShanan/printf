@@ -12,12 +12,12 @@
 /** struct function - struct containing
  * an identifier and function pointer
  *@id: identifier for the function
- *@func: a pointer to function
- */
+*@func: a pointer to function
+*/
 struct function
 {
-    char id;
-    char *(*func)(va_list *);
+char id;
+char *(*func)(va_list *);
 };
 int _printf(const char *format, ...);
 int check_buff_overflow(char *buff, int size_r);
