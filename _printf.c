@@ -1,32 +1,6 @@
 #include "main.h"
 #include <unistd.h>
 #include<stdio.h>
-int main(void)
-{
-    unsigned int ui = UINT_MAX;
-    int len;
-    size_t addr = 0;
-    printf("%p\n", addr);
-    _printf("%p\n", addr);
-    printf("%#-+0l.45i\n");
-    _printf("%#-+ 0lh.45s\n");
-    printf("%#-+ 0lh.405p\n");
-    _printf("%#-+ 0lh.405p\n");
-    _printf("b 98 %b b 0%b\nhex 98 %x hex 0 %x\n octal 98 %o octal 0 %o\n", ui, 0, ui, 0, ui, 0);
-    _printf("test int %i\ndecimal %d\nunsigned int %u\n", 150, -150, 0);
-    _printf("%j]\n");
-    _printf("%%%j]\n");
-    printf("%%i\n");
-    _printf("test s %s and char %c\n", "string", 'c');
-    _printf("Character:[%c]\n", 'H');
-    _printf("test revere  %r\nrot13 %R\n", "thgir", "pnc");
-    _printf("%S", "test new line \n test tab \t\n");
-    len = _printf("Percent:[%%]\n");
-    _printf("Len:[%d]\n", len);
-    _printf("Unsigned:[%u]\n", ui);
-    printf("Unsigned:[%u]\n", ui);
-    return 0;
-}
 /**
  * _printf - print formatted string
  * @format: string to print
