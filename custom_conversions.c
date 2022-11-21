@@ -104,3 +104,13 @@ cstm_s[j++] = s[i];
 cstm_s[j] = '\0';
 return (cstm_s);
 }
+/**
+ * _itob - convert unsigned int to binary
+ * @ap: argument parameter
+ * Return: an unsigned int as binary
+ */
+char *_itob(va_list *ap)
+{
+unsigned int n = va_arg(*ap, unsigned int);
+return (conv_to_xob(n, 'b'));
+}

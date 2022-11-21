@@ -51,6 +51,7 @@ char *(*get_conv_fuction(char c))(va_list *)
         {'r', rev},
         {'R', rot13},
         {'S', custom_str},
+        {'p', ptr_to_str},
         {'\0', NULL},
     };
     while (funcs[i].id != '\0')

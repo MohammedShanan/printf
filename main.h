@@ -57,6 +57,7 @@ char *_itox(va_list *ap);
 char *_itoX(va_list *ap);
 char *_itob(va_list *ap);
 char *ito_oc(va_list *ap);
+char *ptr_to_str(va_list *ap);
 char *conv_to_xob(unsigned int n, char flag);
 /* custom conversions*/
 char *rot13(va_list *ap);
@@ -66,5 +67,5 @@ char *custom_str(va_list *ap);
 int _strlen(char *s, int non_prt);
 char *_strcpy(char *dest, char *src);
 char *_strdup1(char *str);
-char *add_sign(char sign, char *n);
+char *add_sign(char *sign, char *n);
 #endif
