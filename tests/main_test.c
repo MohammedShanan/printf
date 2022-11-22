@@ -15,8 +15,8 @@ int main(void)
 {
     int len;
     int len2;
-    len = printf("%s\n");
-    len2 = _printf("%s\n");
+    len = printf("%sahmed\n");
+    len2 = _printf("%sahmed\n");
     return (0);
 }
 
