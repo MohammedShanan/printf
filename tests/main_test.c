@@ -13,10 +13,10 @@ _printf("%p\n", (void *)0x7ffe637541f0);*/
 /*gcc -Wall -Werror -Wextra -pedantic -std=gnu89  main_test.o -L. -lprtf -o test*/
 int main(void)
 {
-    short len;
-    int len2 ;
-    len = printf("%s", "");
-    len2 = _printf("%s", "");
+    int len;
+    int len2;
+    len = printf();
+    len2 = _printf("%", "");
     return (0);
 }
 

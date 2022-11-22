@@ -30,6 +30,10 @@ len++;
 }
 else
 {
+if (format[i] == '\0')
+{
+return (0);
+}
 s = parse_specifier(format, &i, ap);
 if (s == NULL)
 {
