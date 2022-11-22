@@ -15,7 +15,7 @@ int main(void)
 {
     int len;
     int len2;
-    len = printf();
+    len = printf("ok");
     len2 = _printf("%", "");
     return (0);
 }

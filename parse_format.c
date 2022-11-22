@@ -30,12 +30,8 @@ len++;
 }
 else
 {
-if (format[i] == '\0')
-{
-return (0);
-}
 s = parse_specifier(format, &i, ap);
-if (s == NULL)
+if (s == NULL && format[i] != '\0')
 {
 size_r = check_buff_overflow(buffer, size_r);
 buffer[size_r++] = '%';
