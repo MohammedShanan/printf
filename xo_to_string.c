@@ -88,7 +88,7 @@ return (s);
  */
 char *ptr_to_str(va_list *ap)
 {
-unsigned int n = va_arg(*ap, unsigned int);
+long int n = va_arg(*ap, long int);
 char *tmp, *s, *arr;
 int i, rem, len_tmp, div;
 len_tmp = div = 16;
