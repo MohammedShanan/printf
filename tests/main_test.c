@@ -16,7 +16,7 @@ int main(void)
     int len;
     int len2;
     len = printf("%sahmed\n");
-    len2 = _printf("%sahmed\n", "");
+    len2 = _printf("%sahmed\n");
     return (0);
 }
 
