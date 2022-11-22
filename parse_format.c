@@ -102,19 +102,12 @@ char *convert(char id, va_list *ap, op *opt)
 {
 char *(*f)(va_list *);
 char *s;
-if (is_c_in_str(id, "idu") && (opt->l || opt->h))
-{
-s = apply_len_modifier(id, opt, ap);
-}
-else
-{
 f = get_conv_fuction(id);
 if (f == NULL)
 {
 return (NULL);
 }
 s = f(ap);
-}
 s = apply_options(id, s, opt);
 return (s);
 }

@@ -70,7 +70,7 @@ return (str);
  * @n: number to be converted
  * Return: number as a string
  */
-char *num_to_str(unsigned long n)
+char *num_to_str(unsigned int n)
 {
 int digit, i = 0, len_n = 1;
 char *s;
