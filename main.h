@@ -7,49 +7,49 @@
 /**
  * struct op - struct containing  options
  *@hash_flag: member 1
- *@zero_flag: member 2
- *@space_flag: member 3
- *@plus_flag: member 4
- *@minus_flag: member 5
- *@filed_width: member 6
- *@precision: member 7
- *@h: member 8
- *@l: member 9
- */
+*@zero_flag: member 2
+*@space_flag: member 3
+*@plus_flag: member 4
+*@minus_flag: member 5
+*@filed_width: member 6
+*@precision: member 7
+*@h: member 8
+*@l: member 9
+*/
 typedef struct op
 {
-    int hash_flag;
-    int zero_flag;
-    int space_flag;
-    int plus_flag;
-    int minus_flag;
-    int filed_width;
-    int precision;
-    int h;
-    int l;
+int hash_flag;
+int zero_flag;
+int space_flag;
+int plus_flag;
+int minus_flag;
+int filed_width;
+int precision;
+int h;
+int l;
 } op;
 
 /**
  * struct conv_function - id and function pointer
  *
  *@id: format specifier
- *@func: a pointer to fuction
- */
+*@func: a pointer to fuction
+*/
 typedef struct conv_function
 {
-    char id;
-    char *(*func)(va_list *);
+char id;
+char *(*func)(va_list *);
 } conv_function;
 /**
  * struct op_function - id and function pointer
  *
  *@id: format specifier
- *@func: a pointer to fuction
- */
+*@func: a pointer to fuction
+*/
 typedef struct op_function
 {
-    char id;
-    int (*func)(const char *, int *, op *);
+char id;
+int (*func)(const char *, int *, op *);
 } op_function;
 
 int _printf(const char *format, ...);
