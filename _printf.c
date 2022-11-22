@@ -11,6 +11,10 @@ int _printf(const char *format, ...)
 char *buffer;
 int size_r = 0, total_len = 0;
 va_list ap;
+if (format == NULL)
+{
+return (-1);
+}
 buffer = malloc(sizeof(char) * 1024);
 if (buffer == NULL)
 {

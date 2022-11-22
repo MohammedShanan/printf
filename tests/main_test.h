@@ -70,7 +70,7 @@ char *short_tos(va_list *ap);
 char *unsigned_short_tos(va_list *ap);
 char *long_tos(va_list *ap);
 char *unsigned_long_tos(va_list *ap);
-char *num_to_str(unsigned long n);
+char *num_to_str(unsigned int n);
 /*conversion to hex, binary and octal*/
 char *_itox(va_list *ap);
 char *_itoX(va_list *ap);
