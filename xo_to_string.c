@@ -71,7 +71,7 @@ if (tmp == NULL)
 return (NULL);
 }
 i = len_tmp - 1;
-do{
+do {
 rem = n % div;
 n = n / div;
 tmp[i--] = arr[rem];
@@ -84,6 +84,7 @@ return (s);
 /**
  * ptr_to_str - convert void pointer argument as hexadecimal
  * @ap: argument parameter
+ * Return: void pointer argument as hexadecimal
  */
 char *ptr_to_str(va_list *ap)
 {
@@ -98,7 +99,7 @@ if (tmp == NULL)
 return (NULL);
 }
 i = len_tmp - 1;
-do{
+do {
 rem = n % div;
 n = n / div;
 tmp[i--] = arr[rem];

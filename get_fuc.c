@@ -1,14 +1,13 @@
 #include "main.h"
-
 /**
  *get_op_fuction- get the function based on a giver identifier
-*@c: option identifier
-*Return: a function pointer corresponding to option identifier or NULL
-*/
+ *@c: option identifier
+ *Return: a function pointer corresponding to option identifier or NULL
+ */
 int (*get_op_fuction(char c))(const char *, int *, op *)
 {
 int i = 0;
-struct op_function funcs[] = {
+op_function funcs[] = {
 {'0', update_flag},
 {' ', update_flag},
 {'+', update_flag},
@@ -37,7 +36,8 @@ return (NULL);
 char *(*get_conv_fuction(char c))(va_list *)
 {
 int i = 0;
-struct conv_function funcs[] = {
+
+conv_function funcs[] = {
 {'c', ctostr},
 {'s', tostr},
 {'i', _itos},
