@@ -37,8 +37,7 @@ return (NULL);
 char *(*get_conv_fuction(char c))(va_list *)
 {
 int i = 0;
-struct conv_function funcs[] =
-{
+struct conv_function funcs[] = {
 {'c', ctostr},
 {'s', tostr},
 {'i', _itos},

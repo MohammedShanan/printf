@@ -71,8 +71,7 @@ if (tmp == NULL)
 return (NULL);
 }
 i = len_tmp - 1;
-do
-{
+do{
 rem = n % div;
 n = n / div;
 tmp[i--] = arr[rem];
@@ -82,7 +81,10 @@ s = _strdup1(tmp + i + 1);
 free(tmp);
 return (s);
 }
-
+/**
+ * ptr_to_str - convert void pointer argument as hexadecimal
+ * @ap: argument parameter
+ */
 char *ptr_to_str(va_list *ap)
 {
 unsigned long n = va_arg(*ap, unsigned long);
@@ -96,8 +98,7 @@ if (tmp == NULL)
 return (NULL);
 }
 i = len_tmp - 1;
-do
-{
+do{
 rem = n % div;
 n = n / div;
 tmp[i--] = arr[rem];

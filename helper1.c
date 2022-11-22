@@ -92,7 +92,7 @@ return (num);
 /**
  * is_c_in_str - check if a char in string or not
  * @c: char
- * @s: string
+ * @str: string
  * Return: 1 if char is found 0 if not
  */
 int is_c_in_str(char c, char *str)

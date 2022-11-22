@@ -2,7 +2,7 @@
 /**
  * apply_precision - apply precision option
  * @str: string to modify
- * @ap: precision to be applied
+ * @pre: precision to be applied
  * Return: string
  */
 char *apply_precision(char *str, int pre)
@@ -85,7 +85,7 @@ return (s);
  * apply_filed_width - apply filed width
  * @str: string to modify
  * @width: width to be applied
- * @opt: value of the "-" flage
+ * @minus_flag: value of the "-" flage
  * Return: string
  */
 char *apply_filed_width(char *str, int width, int minus_flag)
@@ -128,7 +128,7 @@ return (s);
  * apply_options - apply all the flags and options
  * @id: format specifier
  * @str: string
- * @option: a struct op
+ * @options: a struct op
  * Return: string
  */
 char *apply_options(char id, char *str, op *options)

@@ -71,8 +71,7 @@ char *apply_len_modifier(char id, op *opt, va_list *ap)
 char *s;
 int i;
 char *(*f)(va_list *);
-conv_function funcs[] =
-{
+conv_function funcs[] = {
 {'i', short_tos},
 {'d', short_tos},
 {'u', unsigned_short_tos},

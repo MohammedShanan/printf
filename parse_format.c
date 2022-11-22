@@ -3,7 +3,7 @@
  * parse_format - parse the formatted string
  * @format: formatted string
  * @ap: argument paramater
- * @buffer: buffer 
+ * @buffer: buffer
  * Return: total length
  */
 int parse_format(const char *format, va_list *ap, char *buffer)
@@ -96,7 +96,7 @@ free(str);
  * @id: format specifier
  * @ap: argument parameter
  * @opt: options
- * Return: convert sting 
+ * Return: convert sting
  */
 char *convert(char id, va_list *ap, op *opt)
 {
