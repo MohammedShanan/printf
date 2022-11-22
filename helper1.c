@@ -68,3 +68,42 @@ return (NULL);
 }
 return (_strcpy(new_str, str));
 }
+/**
+ * get_num - convert number from sting it int
+ * @s: string
+ * @indx: a pointer to the indx of the first digit of the number
+ * Return: number as int
+ */
+int get_num(const char *s, int *indx)
+{
+unsigned int num = 0;
+if (s[*indx] == '.')
+{
+*indx = *indx + 1;
+}
+while (s[*indx] >= '0' && s[*indx] <= '9')
+{
+num *= 10;
+num += s[*indx] - '0';
+*indx = *indx + 1;
+}
+return (num);
+}
+/**
+ * is_c_in_str - check if a char in string or not
+ * @c: char
+ * @s: string
+ * Return: 1 if char is found 0 if not
+ */
+int is_c_in_str(char c, char *str)
+{
+int i;
+for (i = 0; str[i]; i++)
+{
+if (c == str[i])
+{
+return (1);
+}
+}
+return (0);
+}

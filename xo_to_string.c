@@ -10,8 +10,8 @@
  */
 char *_itox(va_list *ap)
 {
-    unsigned int n = va_arg(*ap, unsigned int);
-    return (conv_to_xob(n, 'x'));
+unsigned int n = va_arg(*ap, unsigned int);
+return (conv_to_xob(n, 'x'));
 }
 
 /**
@@ -21,8 +21,8 @@ char *_itox(va_list *ap)
  */
 char *_itoX(va_list *ap)
 {
-    unsigned int n = va_arg(*ap, unsigned int);
-    return (conv_to_xob(n, 'X'));
+unsigned int n = va_arg(*ap, unsigned int);
+return (conv_to_xob(n, 'X'));
 }
 /**
  * ito_oc - convert unsigned int to octal
@@ -31,8 +31,8 @@ char *_itoX(va_list *ap)
  */
 char *ito_oc(va_list *ap)
 {
-    unsigned int n = va_arg(*ap, unsigned int);
-    return (conv_to_xob(n, 'o'));
+unsigned int n = va_arg(*ap, unsigned int);
+return (conv_to_xob(n, 'o'));
 }
 
 /**
@@ -44,66 +44,66 @@ char *ito_oc(va_list *ap)
  */
 char *conv_to_xob(unsigned int n, char flag)
 {
-    int i, rem, len_tmp, div;
-    char *tmp, *s, *arr;
-    len_tmp = div = 16;
-    if (flag == 'b')
-    {
-        div = 2, len_tmp = 32;
-        arr = BINARY;
-    }
-    else if (flag == 'o')
-    {
-        div = 8, len_tmp = 11;
-        arr = OCTAL;
-    }
-    else if (flag == 'x')
-    {
-        arr = HEX_LOWER;
-    }
-    else
-    {
-        arr = HEX_UPPER;
-    }
-    tmp = malloc(len_tmp + 1);
-    if (tmp == NULL)
-    {
-        return (NULL);
-    }
-    i = len_tmp - 1;
-    do
-    {
-        rem = n % div;
-        n = n / div;
-        tmp[i--] = arr[rem];
-    } while (n != 0);
-    tmp[len_tmp] = '\0';
-    s = _strdup1(tmp + i + 1);
-    free(tmp);
-    return (s);
+int i, rem, len_tmp, div;
+char *tmp, *s, *arr;
+len_tmp = div = 16;
+if (flag == 'b')
+{
+div = 2, len_tmp = 32;
+arr = BINARY;
+}
+else if (flag == 'o')
+{
+div = 8, len_tmp = 11;
+arr = OCTAL;
+}
+else if (flag == 'x')
+{
+arr = HEX_LOWER;
+}
+else
+{
+arr = HEX_UPPER;
+}
+tmp = malloc(len_tmp + 1);
+if (tmp == NULL)
+{
+return (NULL);
+}
+i = len_tmp - 1;
+do
+{
+rem = n % div;
+n = n / div;
+tmp[i--] = arr[rem];
+} while (n != 0);
+tmp[len_tmp] = '\0';
+s = _strdup1(tmp + i + 1);
+free(tmp);
+return (s);
 }
 
 char *ptr_to_str(va_list *ap)
 {
-    size_t n = va_arg(*ap, size_t);
-    char *tmp, *s, *arr;
-    int i, rem, len_tmp, div;
-    len_tmp = div = 16;
-    arr = HEX_LOWER;
-    tmp = malloc(len_tmp + 1);
-    if (tmp == NULL)
-    {
-        return (NULL);
-    }
-    i = len_tmp - 1;
-    do
-    {
-        rem = n % div;
-        n = n / div;
-        tmp[i--] = arr[rem];
-    } while (n != 0);
-    tmp[len_tmp] = '\0';
-    s = _strdup1(tmp + i + 1);
-    free(tmp);
-    return (s);
+unsigned long n = va_arg(*ap, unsigned long);
+char *tmp, *s, *arr;
+int i, rem, len_tmp, div;
+len_tmp = div = 16;
+arr = HEX_LOWER;
+tmp = malloc(len_tmp + 1);
+if (tmp == NULL)
+{
+return (NULL);
+}
+i = len_tmp - 1;
+do
+{
+rem = n % div;
+n = n / div;
+tmp[i--] = arr[rem];
+} while (n != 0);
+tmp[len_tmp] = '\0';
+s = _strdup1(tmp + i + 1);
+free(tmp);
+return (s);
 }
