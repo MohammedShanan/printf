@@ -39,12 +39,12 @@ len++;
 continue;
 }
 update_buff(buffer, s, &size_r, &len);
+}
 i++;
 }
 }
 buffer[size_r] = '\0';
 return (len);
-}
 }
 
 /**
