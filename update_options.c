@@ -95,7 +95,7 @@ return (1);
 
 int update_field_width(const char *s, int *indx, op *opt)
 {
-if (opt->h || opt->l || opt->precision)
+if (opt->h || opt->l || opt->precision  != -1)
 {
 return (0);
 }

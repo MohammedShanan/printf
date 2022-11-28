@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <stdio.h>
 #define UNUSED __attribute__((unused))
 /**
  * struct op - struct containing  options

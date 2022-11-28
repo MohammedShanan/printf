@@ -21,6 +21,10 @@ len = _printf("Let's try to printf a simple sentence.\n");
 len2 = printf("Let's try to printf a simple sentence.\n");
 ui = (unsigned int)INT_MAX + 1024;
 addr = (void *)0x7ffe637541f0;
+_printf("%4s\n", "test");
+printf("%4s\n", "test");
+_printf("%8s\n", "test");
+printf("%8s\n", "test");
 _printf("%%");
 _printf("Length:[%+0.7d, %i]\n", 0, len);
 printf("Length:[%+07d, %i]\n", 0, len2);
@@ -46,6 +50,7 @@ _printf("Unknown:[%k]\n");
 printf("Unknown:[%k]\n");
 return (0);
 }
+// parse
 int _printf(const char *format, ...)
 {
 
@@ -350,7 +355,7 @@ opt->zero_flag = 0;
 opt->space_flag = 0;
 opt->h = 0;
 opt->l = 0;
-opt->precision = 0;
+opt->precision = -1;
 }
 
 int update_len_modifier(const char *s, int *indx, op *opt)
@@ -533,7 +538,7 @@ char *parse_specifier(const char *s, int *indx, va_list *ap)
 {
 char *str;
 char id;
-op options = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+op options = {0, 0, 0, 0, 0, 0, -1, 0, 0};
 while (1)
 {
 if (!update_options(s, indx, &options))
@@ -671,7 +676,7 @@ char *tostr(va_list *ap, op *opt)
 {
 char *s;
 s = _strdup1(va_arg(*ap, char *));
-if (opt->precision < _strlen(s, 1))
+if (opt->precision < _strlen(s, 1) && opt->precision != -1)
 {
 s[opt->precision] = '\0';
 }
