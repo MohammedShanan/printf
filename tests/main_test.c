@@ -34,8 +34,8 @@ _printf("Unsigned hexadecimal:[%.14x, %X]\n", ui, ui);
 printf("Unsigned hexadecimal:[%.14x, %X]\n", ui, ui);
 _printf("Character:[%c]\n", 'H');
 printf("Character:[%c]\n", 'H');
-_printf("String:[%.4s]\n", "I am a string !");
-printf("String:[%.4s]\n", "I am a string !");
+_printf("String:[%s]\n", "I am a string !");
+printf("String:[%s]\n", "I am a string !");
 _printf("Address:[%p]\n", addr);
 printf("Address:[%p]\n", addr);
 len = _printf("Percent:[%%]\n");
@@ -625,6 +625,7 @@ i++;
 buffer[size_r] = '\0';
 return (len);
 }
+
 char *convert(char id, va_list *ap, op *opt)
 {
 char *(*f)(va_list *, op *);

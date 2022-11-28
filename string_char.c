@@ -28,7 +28,7 @@ char *tostr(va_list *ap, op *opt)
 {
 char *s;
 s = _strdup1(va_arg(*ap, char *));
-if (opt->precision < _strlen(s, 1))
+if (opt->precision < _strlen(s, 1) && opt->precision != -1)
 {
 s[opt->precision] = '\0';
 }

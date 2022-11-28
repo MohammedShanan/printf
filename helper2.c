@@ -108,5 +108,5 @@ opt->zero_flag = 0;
 opt->space_flag = 0;
 opt->h = 0;
 opt->l = 0;
-opt->precision = 0;
+opt->precision = -1;
 }

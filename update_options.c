@@ -119,6 +119,9 @@ if (s[(*indx) + 1] == '-')
 {
 return (0);
 }
+if (is_c_in_str(s[(*indx) + 1], "0123456789"))
+{
 opt->precision = get_num(s, indx);
+}
 return (1);
 }

@@ -22,31 +22,14 @@ len++;
 else
 {
 i++;
-if (format[i] == '%')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = '%';
-len++;
-}
-else
-{
 s = parse_specifier(format, &i, ap);
-if (s == NULL && format[i] != '\0')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = '%';
-len++;
-continue;
-}
 update_buff(buffer, s, &size_r, &len);
-}
 i++;
 }
 }
 buffer[size_r] = '\0';
 return (len);
 }
-
 /**
  * parse_specifier - parse the formatted string to get specifier
  * @s: formatted string
@@ -59,7 +42,7 @@ char *parse_specifier(const char *s, int *indx, va_list *ap)
 {
 char *str;
 char id;
-op options = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+op options = {0, 0, 0, 0, 0, 0, 0, 0, -1};
 while (1)
 {
 if (!update_options(s, indx, &options))
@@ -102,10 +85,16 @@ char *convert(char id, va_list *ap, op *opt)
 {
 char *(*f)(va_list *, op *);
 char *s;
+char wrong_id[3] = {'%', '\0'};
+if (id == '%')
+{
+return (_strdup1("%"));
+}
 f = get_conv_fuction(id);
 if (f == NULL)
 {
-return (NULL);
+wrong_id[1] = id;
+return (_strdup1(wrong_id));
 }
 s = f(ap, opt);
 return (s);
