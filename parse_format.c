@@ -22,6 +22,22 @@ len++;
 else
 {
 i++;
+if (format[i] == '%')
+{
+size_r = check_buff_overflow(buffer, size_r);
+buffer[size_r++] = '%';
+len++;
+}
+else
+{
+s = parse_specifier(format, &i, ap);
+if (s == NULL && format[i] != '\0')
+{
+size_r = check_buff_overflow(buffer, size_r);
+buffer[size_r++] = '%';
+len++;
+continue;
+}
 s = parse_specifier(format, &i, ap);
 update_buff(buffer, s, &size_r, &len);
 i++;
@@ -29,6 +45,7 @@ i++;
 }
 buffer[size_r] = '\0';
 return (len);
+}
 }
 
 /**
@@ -86,10 +103,6 @@ char *convert(char id, va_list *ap, op *opt)
 {
 char *(*f)(va_list *, op *);
 char *s;
-if (id == '%')
-{
-return (_strdup1("%"));
-}
 f = get_conv_fuction(id);
 if (f == NULL)
 {
