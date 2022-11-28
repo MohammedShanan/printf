@@ -38,7 +38,6 @@ buffer[size_r++] = '%';
 len++;
 continue;
 }
-s = parse_specifier(format, &i, ap);
 update_buff(buffer, s, &size_r, &len);
 i++;
 }
