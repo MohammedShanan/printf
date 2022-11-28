@@ -42,7 +42,7 @@ char *parse_specifier(const char *s, int *indx, va_list *ap)
 {
 char *str;
 char id;
-op options = {0, 0, 0, 0, 0, 0, 0, 0, -1};
+op options = {0, 0, 0, 0, 0, 0, -1, 0, 0};
 while (1)
 {
 if (!update_options(s, indx, &options))
