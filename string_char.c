@@ -57,7 +57,8 @@ s = num_to_str(n);
 }
 s = apply_precision(s, opt->precision);
 s = apply_sign(s, 'i', opt);
-s = apply_zero(s, 'u', opt);
+s = apply_zero(s, 'i', opt);
+s = apply_filed_width(s, opt->filed_width, opt->minus_flag);
 return (s);
 }
 
@@ -75,5 +76,6 @@ s = num_to_str(n);
 s = apply_precision(s, opt->precision);
 s = apply_sign(s, 'u', opt);
 s = apply_zero(s, 'u', opt);
+s = apply_filed_width(s, opt->filed_width, opt->minus_flag);
 return (s);
 }

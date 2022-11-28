@@ -17,6 +17,7 @@ s = conv_to_xob(n, 'x');
 s = apply_precision(s, opt->precision);
 s = apply_sign(s, 'x', opt);
 s = apply_zero(s, 'x', opt);
+s = apply_filed_width(s, opt->filed_width, opt->minus_flag);
 return (s);
 }
 
@@ -34,6 +35,7 @@ s = conv_to_xob(n, 'X');
 s = apply_precision(s, opt->precision);
 s = apply_sign(s, 'X', opt);
 s = apply_zero(s, 'X', opt);
+s = apply_filed_width(s, opt->filed_width, opt->minus_flag);
 return (s);
 }
 
@@ -51,6 +53,7 @@ s = conv_to_xob(n, 'o');
 s = apply_precision(s, opt->precision);
 s = apply_sign(s, 'o', opt);
 s = apply_zero(s, 'o', opt);
+s = apply_filed_width(s, opt->filed_width, opt->minus_flag);
 return (s);
 }
 
