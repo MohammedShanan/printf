@@ -54,7 +54,7 @@ return (1);
 
 int update_flag(const char *s, int *indx, op *opt)
 {
-if (opt->filed_width || opt->h || opt->l || opt->precision)
+if (opt->filed_width || opt->h || opt->l || opt->precision != -1)
 {
 return (0);
 }

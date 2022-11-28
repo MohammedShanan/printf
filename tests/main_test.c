@@ -21,10 +21,10 @@ len = _printf("Let's try to printf a simple sentence.\n");
 len2 = printf("Let's try to printf a simple sentence.\n");
 ui = (unsigned int)INT_MAX + 1024;
 addr = (void *)0x7ffe637541f0;
-_printf("%4s\n", "test");
-printf("%4s\n", "test");
-_printf("%8s\n", "test");
-printf("%8s\n", "test");
+_printf("%-4sk\n", "test");
+printf("%-4sk\n", "test");
+_printf("%-8sk\n", "test");
+printf("%-8sk\n", "test");
 _printf("%%");
 _printf("Length:[%+0.7d, %i]\n", 0, len);
 printf("Length:[%+07d, %i]\n", 0, len2);
@@ -374,7 +374,7 @@ return (1);
 
 int update_flag(const char *s, int *indx, op *opt)
 {
-if (opt->filed_width || opt->h || opt->l || opt->precision)
+if (opt->filed_width || opt->h || opt->l || opt->precision != -1)
 {
 return (0);
 }
@@ -408,7 +408,7 @@ return (1);
 
 int update_field_width(const char *s, int *indx, op *opt)
 {
-if (opt->h || opt->l || opt->precision)
+if (opt->h || opt->l || opt->precision != -1)
 {
 return (0);
 }
