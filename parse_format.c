@@ -86,7 +86,6 @@ char *convert(char id, va_list *ap, op *opt)
 {
 char *(*f)(va_list *, op *);
 char *s;
-char wrong_id[3] = {'%', 's'};
 if (id == '%')
 {
 return (_strdup1("%"));
@@ -94,8 +93,7 @@ return (_strdup1("%"));
 f = get_conv_fuction(id);
 if (f == NULL)
 {
-wrong_id[1] = id;
-return (_strdup1(wrong_id));
+return (NULL);
 }
 s = f(ap, opt);
 return (s);

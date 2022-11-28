@@ -37,7 +37,7 @@ int l;
 typedef struct conv_function
 {
 char id;
-char *(*func)(va_list *);
+char *(*func)(va_list *, op *);
 } conv_function;
 /**
  * struct op_function - id and function pointer
