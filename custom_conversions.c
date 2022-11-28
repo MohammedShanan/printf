@@ -2,10 +2,11 @@
 /**
  * rot13 - encode string using rot13
  * @ap: pointer to argument parameter
+ * @opt: options
  * Return: encoded string
  */
 
-char *rot13(va_list *ap)
+char *rot13(va_list *ap, op *opt UNUSED)
 {
 int i = 0, n;
 char *s = va_arg(*ap, char *);
@@ -42,10 +43,11 @@ return (str);
 /**
  * rev - reverse a string
  * @ap: pointer to argument parameter
+ * @opt: options
  * Return: string in reverse
  */
 
-char *rev(va_list *ap)
+char *rev(va_list *ap, op *opt UNUSED)
 {
 int i = 0, j;
 char *s = va_arg(*ap, char *);
@@ -68,12 +70,13 @@ return (rev);
 /**
  * custom_str - convert a string to a custom string
  * @ap: pointer to argument parameter
+ * @opt: options
  * Return: a custom string with
  * none printable charater replaced by \x
  * followed by the ASCII code value in
  * hexadecimal (upper case - always 2 characters)
  */
-char *custom_str(va_list *ap)
+char *custom_str(va_list *ap, op *opt UNUSED)
 {
 char *s = va_arg(*ap, char *);
 char *hex, *cstm_s;
@@ -107,9 +110,10 @@ return (cstm_s);
 /**
  * _itob - convert unsigned int to binary
  * @ap: argument parameter
+ * @opt: options
  * Return: an unsigned int as binary
  */
-char *_itob(va_list *ap)
+char *_itob(va_list *ap, op *opt UNUSED)
 {
 unsigned int n = va_arg(*ap, unsigned int);
 return (conv_to_xob(n, 'b'));

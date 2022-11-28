@@ -6,33 +6,52 @@
 /**
  * _itox - convert unsigned int to hexadecimal in lower case
  * @ap: argument parameter
+ * @opt: options
  * Return: an unsigned int as hexadecimal in lower case
  */
-char *_itox(va_list *ap)
+char *_itox(va_list *ap, op *opt)
 {
 unsigned int n = va_arg(*ap, unsigned int);
-return (conv_to_xob(n, 'x'));
+char *s;
+s = conv_to_xob(n, 'x');
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'x', opt);
+s = apply_zero(s, 'x', opt);
+return (s);
 }
 
 /**
  * _itoX - convert unsigned int to hexadecimal in upper case
  * @ap: argument parameter
+ * @opt: options
  * Return: an unsigned int as hexadecimal in upper case
  */
-char *_itoX(va_list *ap)
+char *_itoX(va_list *ap, op *opt)
 {
 unsigned int n = va_arg(*ap, unsigned int);
-return (conv_to_xob(n, 'X'));
+char *s;
+s = conv_to_xob(n, 'X');
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'X', opt);
+s = apply_zero(s, 'X', opt);
+return (s);
 }
+
 /**
  * ito_oc - convert unsigned int to octal
  * @ap: argument parameter
+ * @opt: options
  * Return: an unsigned int as an octal
  */
-char *ito_oc(va_list *ap)
+char *ito_oc(va_list *ap, op *opt)
 {
 unsigned int n = va_arg(*ap, unsigned int);
-return (conv_to_xob(n, 'o'));
+char *s;
+s = conv_to_xob(n, 'o');
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'o', opt);
+s = apply_zero(s, 'o', opt);
+return (s);
 }
 
 /**
@@ -42,7 +61,7 @@ return (conv_to_xob(n, 'o'));
  * by default it convert to hex uppercase (flag == NULL)
  * Return: a num as hex ,binary or  octal
  */
-char *conv_to_xob(unsigned int n, char flag)
+char *conv_to_xob(size_t n, char flag)
 {
 int i, rem, len_tmp, div;
 char *tmp, *s, *arr;
@@ -71,7 +90,8 @@ if (tmp == NULL)
 return (NULL);
 }
 i = len_tmp - 1;
-do {
+do
+{
 rem = n % div;
 n = n / div;
 tmp[i--] = arr[rem];
@@ -84,28 +104,14 @@ return (s);
 /**
  * ptr_to_str - convert void pointer argument as hexadecimal
  * @ap: argument parameter
+ * @opt: options
  * Return: void pointer argument as hexadecimal
  */
-char *ptr_to_str(va_list *ap)
+char *ptr_to_str(va_list *ap, op *opt UNUSED)
 {
-long int n = va_arg(*ap, long int);
-char *tmp, *s, *arr;
-int i, rem, len_tmp, div;
-len_tmp = div = 16;
-arr = HEX_LOWER;
-tmp = malloc(len_tmp + 1);
-if (tmp == NULL)
-{
-return (NULL);
-}
-i = len_tmp - 1;
-do {
-rem = n % div;
-n = n / div;
-tmp[i--] = arr[rem];
-} while (n != 0);
-tmp[len_tmp] = '\0';
-s = _strdup1(tmp + i + 1);
-free(tmp);
+size_t n = va_arg(*ap, size_t);
+char *s;
+s = conv_to_xob(n, 'x');
+s = add_sign("0x", s);
 return (s);
 }

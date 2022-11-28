@@ -65,15 +65,15 @@ return (s);
 char *apply_zero(char *str, char id, op *opt)
 {
 char *s;
-if (!opt->zero_flag || !opt->filed_width)
+if (opt->minus_flag)
 {
 return (str);
 }
-if (str[0] == '-')
+if (!is_c_in_str(str[0], "0123456789"))
 {
 opt->filed_width = opt->filed_width - 1;
 }
-else if ((id == 'X' || id == 'x') && opt->hash_flag)
+else if (is_c_in_str(id, "Xx") && opt->hash_flag)
 {
 opt->filed_width = opt->filed_width - 2;
 }

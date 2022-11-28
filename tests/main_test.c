@@ -13,11 +13,37 @@ _printf("%p\n", (void *)0x7ffe637541f0);*/
 /*gcc -Wall -Werror -Wextra -pedantic -std=gnu89  main_test.o -L. -lprtf -o test*/
 int main(void)
 {
-    int len;
-    int len2;
-    len = printf("ok");
-    len2 = _printf("%", "");
-    return (0);
+int len;
+int len2;
+unsigned int ui;
+void *addr;
+len = _printf("Let's try to printf a simple sentence.\n");
+len2 = printf("Let's try to printf a simple sentence.\n");
+ui = (unsigned int)INT_MAX + 1024;
+addr = (void *)0x7ffe637541f0;
+_printf("Length:[%+0.7d, %i]\n", 0, len);
+printf("Length:[%+07d, %i]\n", 0, len2);
+_printf("Negative:[% 8.7d]\n", -762534);
+printf("Negative:[% 8.7d]\n", -762534);
+_printf("Unsigned:[%u]\n", ui);
+printf("Unsigned:[%u]\n", ui);
+_printf("Unsigned octal:[%o]\n", ui);
+printf("Unsigned octal:[%o]\n", ui);
+_printf("Unsigned hexadecimal:[%.14x, %X]\n", ui, ui);
+printf("Unsigned hexadecimal:[%.14x, %X]\n", ui, ui);
+_printf("Character:[%c]\n", 'H');
+printf("Character:[%c]\n", 'H');
+_printf("String:[%.4s]\n", "I am a string !");
+printf("String:[%.4s]\n", "I am a string !");
+_printf("Address:[%p]\n", addr);
+printf("Address:[%p]\n", addr);
+len = _printf("Percent:[%%]\n");
+len2 = printf("Percent:[%%]\n");
+_printf("Len:[%d]\n", len);
+printf("Len:[%d]\n", len2);
+_printf("Unknown:[%k]\n");
+printf("Unknown:[%k]\n");
+return (0);
 }
 int _printf(const char *format, ...)
 {
@@ -48,7 +74,7 @@ return (0);
 }
 return (size_r);
 }
-char *(*get_conv_fuction(char c))(va_list *)
+char *(*get_conv_fuction(char c))(va_list *, op *)
 {
 int i = 0;
 struct conv_function funcs[] =
@@ -79,7 +105,7 @@ i++;
 return (NULL);
 }
 
-char *rot13(va_list *ap)
+char *rot13(va_list *ap, op *opt UNUSED)
 {
 int i = 0, n;
 char *s = va_arg(*ap, char *);
@@ -113,7 +139,7 @@ str[i] = '\0';
 return (str);
 }
 
-char *rev(va_list *ap)
+char *rev(va_list *ap, op *opt UNUSED)
 {
 int i = 0, j;
 char *s = va_arg(*ap, char *);
@@ -134,7 +160,7 @@ rev[i] = '\0';
 return (rev);
 }
 
-char *custom_str(va_list *ap)
+char *custom_str(va_list *ap, op *opt UNUSED)
 {
 char *s = va_arg(*ap, char *);
 char *hex, *cstm_s;
@@ -165,7 +191,11 @@ cstm_s[j++] = s[i];
 cstm_s[j] = '\0';
 return (cstm_s);
 }
-
+char *_itob(va_list *ap, op *opt UNUSED)
+{
+unsigned int n = va_arg(*ap, unsigned int);
+return (conv_to_xob(n, 'b'));
+}
 int _strlen(char *s, int non_prt)
 {
 int len;
@@ -212,54 +242,7 @@ return (NULL);
 return (_strcpy(new_str, str));
 }
 
-
-
-
-
-char *ctostr(va_list *ap)
-{
-char c = va_arg(*ap, int);
-char *s = malloc(2);
-if (s == NULL)
-{
-return (NULL);
-}
-s[0] = c;
-s[1] = '\0';
-return (s);
-}
-
-char *tostr(va_list *ap)
-{
-return (_strdup1(va_arg(*ap, char *)));
-}
-
-char *_itox(va_list *ap)
-{
-unsigned int n = va_arg(*ap, unsigned int);
-return (conv_to_xob(n, 'x'));
-}
-
-char *_itoX(va_list *ap)
-{
-unsigned int n = va_arg(*ap, unsigned int);
-return (conv_to_xob(n, 'X'));
-}
-
-char *ito_oc(va_list *ap)
-{
-unsigned int n = va_arg(*ap, unsigned int);
-return (conv_to_xob(n, 'o'));
-}
-
-char *_itob(va_list *ap)
-{
-unsigned int n = va_arg(*ap, unsigned int);
-
-return (conv_to_xob(n, 'b'));
-}
-
-char *conv_to_xob(unsigned int n, char flag)
+char *conv_to_xob(size_t n, char flag)
 {
 int i, rem, len_tmp, div;
 char *tmp, *s, *arr;
@@ -298,47 +281,6 @@ tmp[len_tmp] = '\0';
 s = _strdup1(tmp + i + 1);
 free(tmp);
 return (s);
-}
-
-int parse_format(const char *format, va_list *ap, char *buffer)
-{
-char *s;
-int i, size_r, len;
-i = size_r = len = 0;
-while (format[i])
-{
-if (format[i] != '%')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = format[i++];
-len++;
-}
-else
-{
-i++;
-if (format[i] == '%')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = '%';
-len++;
-}
-else
-{
-s = parse_specifier(format, &i, ap);
-if (s == NULL)
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = '%';
-len++;
-continue;
-}
-update_buff(buffer, s, &size_r, &len);
-}
-i++;
-}
-}
-buffer[size_r] = '\0';
-return (len);
 }
 
 void update_buff(char *buff, char *str, int *size_r, int *tlen)
@@ -396,33 +338,6 @@ i++;
 }
 return (NULL);
 }
-
-char *ptr_to_str(va_list *ap)
-{
-unsigned long n = va_arg(*ap, unsigned long);
-char *tmp, *s, *arr;
-int i, rem, len_tmp, div;
-len_tmp = div = 16;
-arr = HEX_LOWER;
-tmp = malloc(len_tmp + 1);
-if (tmp == NULL)
-{
-return (NULL);
-}
-i = len_tmp - 1;
-do
-{
-rem = n % div;
-n = n / div;
-tmp[i--] = arr[rem];
-} while (n != 0);
-tmp[len_tmp] = '\0';
-s = _strdup1(tmp + i + 1);
-free(tmp);
-s = add_sign("0x", s);
-return (s);
-}
-
 
 void reset_options(op *opt)
 {
@@ -523,27 +438,6 @@ num += s[*indx] - '0';
 *indx = *indx + 1;
 }
 return (num);
-}
-
-char *apply_options(char id, char *str, op *options)
-{
-char *s = str;
-if (str == NULL)
-{
-return (NULL);
-}
-if (options->precision || options->minus_flag)
-{
-options->zero_flag = 0;
-}
-if (is_c_in_str(id, "iduxXo"))
-{
-s = apply_precision(str, options->precision);
-s = apply_zero(s, id, options);
-s = apply_sign(s, id, options);
-}
-s = apply_filed_width(s, options->filed_width, options->minus_flag);
-return (s);
 }
 
 char *apply_sign(char *str, char id, op *opt)
@@ -652,160 +546,11 @@ reset_options(&options);
 return (str);
 }
 
-char *pad_zeros(int num_z, char *str)
-{
-int i, j = 0, len_str, negative = 0;
-char *s;
-len_str = _strlen(str, 1);
-if (str[0] == '-')
-{
-j++, len_str--;
-negative = 1;
-}
-if (len_str >= num_z)
-{
-return (str);
-}
-s = malloc(num_z + 1);
-if (s == NULL)
-{
-free(str);
-return (NULL);
-}
-for (i = 0; i < num_z - len_str; i++)
-{
-s[i] = '0';
-}
-while (i <= num_z)
-{
-s[i++] = str[j++];
-}
-if (negative)
-{
-s = add_sign("-", s);
-}
-free(str);
-return (s);
-}
-
-char *apply_zero(char *str, char id, op *opt)
-{
-char *s;
-if (!opt->zero_flag || !opt->filed_width)
-{
-return (str);
-}
-if (str[0] == '-')
-{
-opt->filed_width = opt->filed_width - 1;
-}
-else if ((id == 'X' || id == 'x') && opt->hash_flag)
-{
-opt->filed_width = opt->filed_width - 2;
-}
-s = pad_zeros(opt->filed_width, str);
-opt->filed_width = 0;
-return (s);
-}
-
 char *apply_precision(char *str, int pre)
 {
 char *s;
 s = pad_zeros(pre, str);
 return (s);
-}
-
-char *apply_len_modifier(char id, op *opt, va_list *ap)
-{
-char *s;
-int i;
-char *(*f)(va_list *);
-conv_function funcs[] =
-{
-{'i', short_tos},
-{'d', short_tos},
-{'u', unsigned_short_tos},
-{'I', long_tos},
-{'D', long_tos},
-{'U', unsigned_long_tos},
-};
-id = opt->h ? id : id - 32;
-while (1)
-{
-if (funcs[i].id == id)
-{
-f = funcs[i].func;
-break;
-}
-i++;
-}
-s = f(ap);
-return (s);
-}
-
-char *short_tos(va_list *ap)
-{
-short n = va_arg(*ap, int);
-char *s;
-if (n < 0)
-{
-n = n * -1;
-s = add_sign("-", num_to_str(n));
-return (s);
-}
-s = num_to_str(n);
-return (s);
-}
-
-char *unsigned_short_tos(va_list *ap)
-{
-unsigned short n = va_arg(*ap, int);
-char *s;
-s = num_to_str(n);
-return (s);
-}
-
-char *long_tos(va_list *ap)
-{
-long n = va_arg(*ap, long);
-char *s;
-if (n < 0)
-{
-n = n * -1;
-s = add_sign("-", num_to_str(n));
-return (s);
-}
-s = num_to_str(n);
-return (s);
-}
-
-char *unsigned_long_tos(va_list *ap)
-{
-unsigned long n = va_arg(*ap, unsigned long);
-char *s;
-s = num_to_str(n);
-return (s);
-}
-
-/*new --------------------------------*/
-char *_itos(va_list *ap)
-{
-int n = va_arg(*ap, int);
-char *s;
-if (n < 0)
-{
-n = n * -1;
-s = add_sign("-", num_to_str(n));
-return (s);
-}
-s = num_to_str(n);
-return (s);
-}
-
-char *_uitos(va_list *ap)
-{
-unsigned int n = va_arg(*ap, unsigned int);
-return (num_to_str(n));
 }
 
 char *add_sign(char *sign, char *n)
@@ -825,27 +570,6 @@ str[j++] = n[i];
 str[j] = '\0';
 free(n);
 return (str);
-}
-
-char *convert(char id, va_list *ap, op *opt)
-{
-char *(*f)(va_list *);
-char *s;
-if (is_c_in_str(id, "idu") && (opt->l || opt->h))
-{
-s = apply_len_modifier(id, opt, ap);
-}
-else
-{
-f = get_conv_fuction(id);
-if (f == NULL)
-{
-return (NULL);
-}
-s = f(ap);
-}
-s = apply_options(id, s, opt);
-return (s);
 }
 
 char *num_to_str(unsigned int n)
@@ -872,5 +596,220 @@ tens /= 10;
 i++;
 }
 s[i] = '\0';
+return (s);
+}
+
+
+int parse_format(const char *format, va_list *ap, char *buffer)
+{
+char *s;
+int i, size_r, len;
+i = size_r = len = 0;
+while (format[i])
+{
+if (format[i] != '%')
+{
+size_r = check_buff_overflow(buffer, size_r);
+buffer[size_r++] = format[i++];
+len++;
+}
+else
+{
+i++;
+s = parse_specifier(format, &i, ap);
+update_buff(buffer, s, &size_r, &len);
+i++;
+}
+}
+buffer[size_r] = '\0';
+return (len);
+}
+char *convert(char id, va_list *ap, op *opt)
+{
+char *(*f)(va_list *, op *);
+char *s;
+char wrong_id[3] = {'%', '\0'};
+if (id == '%')
+{
+return (_strdup1("%"));
+}
+f = get_conv_fuction(id);
+if (f == NULL)
+{
+wrong_id[1] = id;
+return (_strdup1(wrong_id));
+}
+s = f(ap, opt);
+return (s);
+}
+
+char *ptr_to_str(va_list *ap, op *opt UNUSED)
+{
+size_t n = va_arg(*ap, size_t);
+char *s;
+s = conv_to_xob(n, 'x');
+s = add_sign("0x", s);
+return (s);
+}
+
+char *ctostr(va_list *ap, op *opt UNUSED)
+{
+char c = va_arg(*ap, int);
+char *s = malloc(2);
+if (s == NULL)
+{
+return (NULL);
+}
+s[0] = c;
+s[1] = '\0';
+return (s);
+}
+
+char *tostr(va_list *ap, op *opt)
+{
+char *s;
+s = _strdup1(va_arg(*ap, char *));
+if (opt->precision < _strlen(s, 1))
+{
+s[opt->precision] = '\0';
+}
+s = apply_filed_width(s, opt->filed_width, opt->minus_flag);
+return (s);
+}
+
+char *_itos(va_list *ap, op *opt)
+{
+int n = va_arg(*ap, int);
+char *s;
+if (n < 0)
+{
+n = n * -1;
+s = add_sign("-", num_to_str(n));
+}
+else
+{
+s = num_to_str(n);
+}
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'i', opt);
+s = apply_zero(s, 'u', opt);
+return (s);
+}
+
+char *_uitos(va_list *ap, op *opt)
+{
+unsigned int n = va_arg(*ap, unsigned int);
+char *s;
+s = num_to_str(n);
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'u', opt);
+s = apply_zero(s, 'u', opt);
+return (s);
+}
+/*new -----------------------------------------------------------------*/
+char *_itox(va_list *ap, op *opt)
+{
+unsigned int n = va_arg(*ap, unsigned int);
+char *s;
+s = conv_to_xob(n, 'x');
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'x', opt);
+s = apply_zero(s, 'x', opt);
+return (s);
+}
+
+char *_itoX(va_list *ap, op *opt)
+{
+unsigned int n = va_arg(*ap, unsigned int);
+char *s;
+s = conv_to_xob(n, 'X');
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'X', opt);
+s = apply_zero(s, 'X', opt);
+return (s);
+}
+
+char *ito_oc(va_list *ap, op *opt)
+{
+unsigned int n = va_arg(*ap, unsigned int);
+char *s;
+s = conv_to_xob(n, 'o');
+s = apply_precision(s, opt->precision);
+s = apply_sign(s, 'o', opt);
+s = apply_zero(s, 'o', opt);
+return (s);
+}
+
+char *apply_options(char id, char *str, op *options)
+{
+char *s = str;
+if (str == NULL)
+{
+return (NULL);
+}
+if (options->precision || options->minus_flag)
+{
+options->zero_flag = 0;
+}
+if (is_c_in_str(id, "iduxXo"))
+{
+s = apply_precision(str, options->precision);
+s = apply_sign(s, id, options);
+}
+s = apply_filed_width(s, options->filed_width, options->minus_flag);
+return (s);
+}
+
+char *apply_zero(char *str, char id, op *opt)
+{
+char *s;
+if (opt->minus_flag)
+{
+return (str);
+}
+if (!is_c_in_str(str[0], "0123456789"))
+{
+opt->filed_width = opt->filed_width - 1;
+}
+else if (is_c_in_str(id, "Xx") && opt->hash_flag)
+{
+opt->filed_width = opt->filed_width - 2;
+}
+s = pad_zeros(opt->filed_width, str);
+opt->filed_width = 0;
+return (s);
+}
+
+char *pad_zeros(int num_z, char *str)
+{
+int i, j = 0, len_str;
+char *s;
+char sign[2] = {'\0'};
+len_str = _strlen(str, 1);
+if (!is_c_in_str(str[0], "0123456789"))
+{
+j++, len_str--;
+sign[0] = str[0];
+}
+if (len_str >= num_z)
+{
+return (str);
+}
+s = malloc(num_z + 1);
+if (s == NULL)
+{
+free(str);
+return (NULL);
+}
+for (i = 0; i < num_z - len_str; i++)
+{
+s[i] = '0';
+}
+while (i <= num_z)
+{
+s[i++] = str[j++];
+}
+s = add_sign(sign, s);
+free(str);
 return (s);
 }

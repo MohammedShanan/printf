@@ -7,13 +7,14 @@
  */
 char *pad_zeros(int num_z, char *str)
 {
-int i, j = 0, len_str, negative = 0;
+int i, j = 0, len_str;
 char *s;
+char sign[2] = {'\0'};
 len_str = _strlen(str, 1);
-if (str[0] == '-')
+if (!is_c_in_str(str[0], "0123456789"))
 {
 j++, len_str--;
-negative = 1;
+sign[0] = str[0];
 }
 if (len_str >= num_z)
 {
@@ -33,10 +34,7 @@ while (i <= num_z)
 {
 s[i++] = str[j++];
 }
-if (negative)
-{
-s = add_sign("-", s);
-}
+s = add_sign(sign, s);
 free(str);
 return (s);
 }
@@ -89,7 +87,7 @@ while (tens >= 1)
 {
 digit = n / tens;
 s[i] = digit + '0';
-n = (n - (tens *digit));
+n = (n - (tens * digit));
 tens /= 10;
 i++;
 }

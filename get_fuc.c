@@ -33,7 +33,7 @@ return (NULL);
 *@c: format specifier
 *Return: a function pointer corresponding to format specifier or NULL
 */
-char *(*get_conv_fuction(char c))(va_list *)
+char *(*get_conv_fuction(char c))(va_list *, op *)
 {
 int i = 0;
 

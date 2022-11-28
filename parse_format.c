@@ -22,24 +22,8 @@ len++;
 else
 {
 i++;
-if (format[i] == '%')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = '%';
-len++;
-}
-else
-{
 s = parse_specifier(format, &i, ap);
-if (s == NULL && format[i] != '\0')
-{
-size_r = check_buff_overflow(buffer, size_r);
-buffer[size_r++] = '%';
-len++;
-continue;
-}
 update_buff(buffer, s, &size_r, &len);
-}
 i++;
 }
 }
@@ -100,18 +84,22 @@ free(str);
  */
 char *convert(char id, va_list *ap, op *opt)
 {
-char *(*f)(va_list *);
+char *(*f)(va_list *, op *);
 char *s;
+char wrong_id[3] = {'%', '\0'};
+if (id == '%')
+{
+return (_strdup1("%"));
+}
 f = get_conv_fuction(id);
 if (f == NULL)
 {
-return (NULL);
+wrong_id[1] = id;
+return (_strdup1(wrong_id));
 }
-s = f(ap);
-s = apply_options(id, s, opt);
+s = f(ap, opt);
 return (s);
 }
-
 /**
  * check_buff_overflow - check if the size of buffer has reached 1024
  * the right the buffer to stdout and reset the buffer

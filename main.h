@@ -3,53 +3,54 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <limits.h>
+#define UNUSED __attribute__((unused))
 /**
  * struct op - struct containing  options
  *@hash_flag: member 1
-*@zero_flag: member 2
-*@space_flag: member 3
-*@plus_flag: member 4
-*@minus_flag: member 5
-*@filed_width: member 6
-*@precision: member 7
-*@h: member 8
-*@l: member 9
-*/
+ *@zero_flag: member 2
+ *@space_flag: member 3
+ *@plus_flag: member 4
+ *@minus_flag: member 5
+ *@filed_width: member 6
+ *@precision: member 7
+ *@h: member 8
+ *@l: member 9
+ */
 typedef struct op
 {
-int hash_flag;
-int zero_flag;
-int space_flag;
-int plus_flag;
-int minus_flag;
-int filed_width;
-int precision;
-int h;
-int l;
+    int hash_flag;
+    int zero_flag;
+    int space_flag;
+    int plus_flag;
+    int minus_flag;
+    int filed_width;
+    int precision;
+    int h;
+    int l;
 } op;
 
 /**
  * struct conv_function - id and function pointer
  *
  *@id: format specifier
-*@func: a pointer to fuction
-*/
+ *@func: a pointer to fuction
+ */
 typedef struct conv_function
 {
-char id;
-char *(*func)(va_list *);
+    char id;
+    char *(*func)(va_list *, op *);
 } conv_function;
 /**
  * struct op_function - id and function pointer
  *
  *@id: format specifier
-*@func: a pointer to fuction
-*/
+ *@func: a pointer to fuction
+ */
 typedef struct op_function
 {
-char id;
-int (*func)(const char *, int *, op *);
+    char id;
+    int (*func)(const char *, int *, op *);
 } op_function;
 
 int _printf(const char *format, ...);
@@ -57,12 +58,8 @@ int _printf(const char *format, ...);
 int parse_format(const char *format, va_list *ap, char *buffer);
 char *parse_specifier(const char *s, int *indx, va_list *ap);
 void update_buff(char *buff, char *str, int *size_r, int *tlen);
+char get_specifier(const char *str, int *indx_ptr, op *options);
 int check_buff_overflow(char *buff, int size_r);
-char *convert(char id, va_list *ap, op *opt);
-
-
-
-
 /*options functions*/
 int update_options(const char *s, int *indx, op *opt);
 int update_flag(const char *s, int *indx, op *opt);
@@ -77,31 +74,28 @@ char *apply_filed_width(char *str, int width, int minus_flag);
 char *apply_zero(char *str, char id, op *opt);
 char *apply_len_modifier(char id, op *opt, va_list *ap);
 void reset_options(op *opt);
+char *convert(char id, va_list *ap, op *opt);
 /*get function functions*/
-char *(*get_conv_fuction(char c))(va_list *);
+char *(*get_conv_fuction(char c))(va_list *, op *);
 int (*get_op_fuction(char c))(const char *, int *, op *);
 /*sting and char conversion*/
-char *ctostr(va_list *ap);
-char *tostr(va_list *ap);
+char *ctostr(va_list *ap, op *opt);
+char *tostr(va_list *ap, op *opt);
 /* number conversion*/
-char *_uitos(va_list *ap);
-char *_itos(va_list *ap);
-char *short_tos(va_list *ap);
-char *unsigned_short_tos(va_list *ap);
-char *long_tos(va_list *ap);
-char *unsigned_long_tos(va_list *ap);
+char *_uitos(va_list *ap, op *opt);
+char *_itos(va_list *ap, op *opt);
 char *num_to_str(unsigned int n);
 /*conversion to hex, binary and octal*/
-char *_itox(va_list *ap);
-char *_itoX(va_list *ap);
-char *_itob(va_list *ap);
-char *ito_oc(va_list *ap);
-char *ptr_to_str(va_list *ap);
-char *conv_to_xob(unsigned int n, char flag);
+char *_itox(va_list *ap, op *opt);
+char *_itoX(va_list *ap, op *opt);
+char *_itob(va_list *ap, op *opt);
+char *ito_oc(va_list *ap, op *opt);
+char *ptr_to_str(va_list *ap, op *opt);
+char *conv_to_xob(size_t n, char flag);
 /* custom conversions*/
-char *rot13(va_list *ap);
-char *rev(va_list *ap);
-char *custom_str(va_list *ap);
+char *rot13(va_list *ap, op *opt UNUSED);
+char *rev(va_list *ap, op *opt UNUSED);
+char *custom_str(va_list *ap, op *opt UNUSED);
 /*helper functions*/
 int _strlen(char *s, int non_prt);
 char *_strcpy(char *dest, char *src);
